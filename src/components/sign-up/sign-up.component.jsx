@@ -16,6 +16,7 @@ class SignUp extends React.Component {
     };
   }
 
+  //async method because contains firebase API calls
   handleSubmit = async event => {
     event.preventDefault();
 
@@ -27,13 +28,16 @@ class SignUp extends React.Component {
     }
 
     try {
+      //Create user in authentication of firebase and sign user in automatically
       const { user } = await auth.createUserWithEmailAndPassword(
         email,
         password
       );
 
+      //Create user in firestore
       await createUserProfileDocument(user, { displayName });
 
+      //Clear form inputs
       this.setState({
         displayName: "",
         email: "",

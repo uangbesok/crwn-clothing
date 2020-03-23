@@ -21,11 +21,13 @@ class SignIn extends React.Component {
 
     try {
 
+      //Sign in with firebase using email, password. Returns authenticated user.
       const { user } = await auth.signInWithEmailAndPassword(
         email,
         password
       );
 
+      //Clear sign in form inputs
       this.setState({ email: "", password: "" });
 
     } catch (error) {
@@ -33,6 +35,7 @@ class SignIn extends React.Component {
     }
   };
 
+  //Updates state with user input. Might be not the best solution for sign-in form
   handleChange = event => {
     event.preventDefault();
 
@@ -64,6 +67,8 @@ class SignIn extends React.Component {
           />
           <div className="buttons">
             <CustomButton type="submit">Sign in</CustomButton>
+            {/* isGoogleSignIn param for special styling of Google sign in button. */}
+            {/* Might be not the best approach. */}
             <CustomButton onClick={signInWithGoogle} isGoogleSignIn>Sign in with Google</CustomButton>
           </div>
         </form>

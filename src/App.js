@@ -28,8 +28,10 @@ class App extends React.Component {
       {
         if(userAuth)
         {
+          //Create user in firestore users collection and return user reference
           const userRef = await createUserProfileDocument(userAuth);
 
+          //Update state when user document changes
           userRef.onSnapshot(snapShot => {
             this.setState({
               currentUser: {
@@ -46,6 +48,7 @@ class App extends React.Component {
 
   componentWillUnmount()
   {
+    //Stop listening to auth events. Needed to avoid memory leaks.
     this.unsubscribeFromAuth();
   }
 

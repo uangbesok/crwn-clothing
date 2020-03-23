@@ -21,12 +21,17 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     if(!userAuth)
         return;
 
+    //Get reference from firestore for currently authenticated user    
     const userRef = firestore.doc(`users/${userAuth.uid}`);
     
+    //Get detailed data about authenticated user as a snapshot
     const snapShot = await userRef.get();
 
+    //If authenticated user doesn't exist in firestore database 
+    // then create user in users collection
     if(!snapShot.exists)
     {
+        //Destructure user details from authenticated user object
         const { displayName, email} = userAuth;
         const createdAt = new Date();
 
@@ -56,6 +61,7 @@ export const firestore = firebase.firestore();
 const provider  = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({ prompt: 'select_account' });
 
+//Export method for popup login with Google account
 export const signInWithGoogle = () => auth.signInWithPopup(provider);
 
 export default firebase;
