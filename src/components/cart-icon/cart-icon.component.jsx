@@ -4,7 +4,8 @@ import './cart-icon.styles.scss'
 import { ReactComponent as ShoppingIcon } from "../../assets/shopping-bag.svg";
 import { connect } from "react-redux";
 import { toggleCartHidden } from "../../redux/cart/cart.actions";
-import { totalItemCount } from "../../redux/cart/cart.selectors"
+import { createStructuredSelector } from 'reselect';
+import { selectTotalItemCount } from "../../redux/cart/cart.selectors"
 
 const CartIcon = ({ toggleCartHidden, totalItemCount }) => (
     <div className='cart-icon' onClick={ toggleCartHidden }>
@@ -19,8 +20,8 @@ const mapDispatchToProps = {
 
 //To reconsider whether it's better to recalculate new total quantity in the moment
 // when new item added to cart
-const mapStateToProps = (state) => ({
-    totalItemCount: totalItemCount(state),
+const mapStateToProps = createStructuredSelector({
+    totalItemCount: selectTotalItemCount,
 })
   
   
