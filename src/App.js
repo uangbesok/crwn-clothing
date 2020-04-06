@@ -2,38 +2,53 @@ import React from "react";
 import "./App.css";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { setCurrentUserAction } from "./redux/user/user.actions";
+import { setCurrentUser } from "./redux/user/user.actions";
 
 import HomePage from "./pages/homepage/homepage.component";
 import ShopPage from "./pages/shop/shop.component";
 import Header from "./components/header/header.component";
 import CheckoutPage from "./pages/checkoutpage/checkoutpage.component"
 import SignInSignOutPage from "./pages/sign-in-sign-up/sign-in-sign-up.component";
-import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
+import { 
+  auth,
+  createUserProfileDocument,
+  // addCollectionAndDocuments 
+} from "./firebase/firebase.utils";
 
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './redux/user/user.selectors'
+// import { selectCollectionsForPreview } from "./redux/shop/shop.selector";
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    const { setCurrentUserAction } = this.props;
+    const { 
+      setCurrentUser, 
+      // collectionsArray 
+    } = this.props;
 
-    auth.onAuthStateChanged(async userAuth => {
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
         //Create user in firestore users collection and return user reference
         const userRef = await createUserProfileDocument(userAuth);
 
         //Update state when user document changes
         userRef.onSnapshot(snapShot => {
-          setCurrentUserAction({
+          setCurrentUser({
             id: snapShot.id,
             ...snapShot.data()
           });
         });
-      } else setCurrentUserAction(userAuth);
+      } 
+      else setCurrentUser(userAuth);
     });
+
+    // addCollectionAndDocuments(
+    //   'collections', 
+    //   collectionsArray.map(({title, items}) => ({title, items}))
+    //   );
+
   }
 
   componentWillUnmount() {
@@ -61,19 +76,15 @@ class App extends React.Component {
   }
 }
 
-// const mapDispatchToProps = dispatch => (
-//   {
-//     setCurrentUserAction: user => dispatch(setCurrentUserAction(user))
-//   }
-// );
 
-// Short form of mapDispatchToProps. To check if it works.
+// Short form of mapDispatchToProps.
 const mapDispatchToProps = {
-  setCurrentUserAction
+  setCurrentUser
 };
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
+  // collectionsArray: selectCollectionsForPreview,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
