@@ -62,6 +62,7 @@ export const firestore = firebase.firestore();
 const provider  = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({ prompt: 'select_account' });
 
+//Util method to add static data to firestore collection
 export const addCollectionAndDocuments = async (collectionKey, docsToAdd) =>
 {
     const collectionRef = firestore.collection(collectionKey);
@@ -74,6 +75,24 @@ export const addCollectionAndDocuments = async (collectionKey, docsToAdd) =>
     });
 
     return await batch.commit();
+}
+
+export const convertCollectionSnapshotToMap = (collection) => {
+    const transformedCollection = collection.docs.map(doc => {
+        const { title, items } = doc.data();
+
+        return {
+            routeName: encodeURI(title.toLowerCase()),
+            id: doc.id,
+            title,
+            items,
+        }
+    });
+
+    return transformedCollection.reduce((shopData, collection) => {
+        shopData[collection.title.toLowerCase()] = collection;
+        return shopData;
+    }, {});  
 }
 
 //Export method for popup login with Google account
