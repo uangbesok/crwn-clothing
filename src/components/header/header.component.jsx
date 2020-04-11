@@ -12,7 +12,7 @@ import CartDropdown from '../cart-dropdown/cart-dropdown.component'
 import { createStructuredSelector } from 'reselect';
 import { selectCartHidden } from '../../redux/cart/cart.selectors';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
-import { HeaderContainer, LogoContainer, OptionsContainer ,OptionLink, OptionDiv } from "./header.styles";
+import { HeaderContainer, LogoContainer, OptionsContainer ,OptionLink } from "./header.styles";
 
 
 //Receives authorized user or null
