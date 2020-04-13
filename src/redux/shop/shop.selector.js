@@ -17,3 +17,8 @@ export const selectCollection = categoryId => createSelector(
     [selectCollections],
     (collections) => collections ? collections[categoryId] : null,
 )
+
+export const selectIsCollectionsLoaded = createSelector(
+    [selectShop],
+    (shop) => !!shop.collections
+);

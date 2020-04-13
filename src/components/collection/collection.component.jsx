@@ -3,6 +3,7 @@ import './collection.styles.scss';
 
 import { connect } from 'react-redux';
 import { selectCollection } from '../../redux/shop/shop.selector'
+import { createStructuredSelector } from 'reselect';
 
 import CollectionItem from '../collection-item/collection-item.component'
 
@@ -20,8 +21,8 @@ const Collection = ({ collection }) => {
     </div>
 )}
 
-const mapStateToProps = (state, props) => ({
-    collection: selectCollection(props.match.params.categoryId)(state)
+const mapStateToProps = createStructuredSelector ({
+    collection: (state, props) => selectCollection(props.match.params.categoryId)(state),
 })
 
 export default connect(mapStateToProps)(Collection);
