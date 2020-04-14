@@ -21,6 +21,8 @@ export const fetchCollectionsFailure = (errorMessage) => (
     }
 )
 
+// method using redux thunk to fetch shop collections data from firestore
+// fires multiple events for different download stages
 export const fetchCollectionsStartAsync = () => 
     {   
         return dispatch => {

@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import CollectionOverviewWithSpinner from '../../components/collection-overview/collection-overview.container'
 import CollectionWithSpinner from '../../components/collection/collection.container'
 import { connect } from 'react-redux';
-import { fetchCollectionsStartAsync } from '../../redux/shop/shop.actions';
+import { fetchCollectionsStart } from '../../redux/shop/shop.actions';
 
 
 class ShopPage extends React.Component {
@@ -16,8 +16,8 @@ class ShopPage extends React.Component {
 
   componentDidMount()
   {
-    const { fetchCollectionsStartAsync } = this.props;
-    fetchCollectionsStartAsync();
+    const { fetchCollectionsStart } = this.props;
+    fetchCollectionsStart();
   }
 
   // componentWillUnmount()
@@ -35,7 +35,7 @@ class ShopPage extends React.Component {
 }
 
 const mapDispatchToProps = {
-  fetchCollectionsStartAsync,
+  fetchCollectionsStart,
 }
 
 export default connect(null, mapDispatchToProps)(ShopPage);
