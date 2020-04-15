@@ -3,8 +3,8 @@ import React from "react";
 import "./sign-in.styles.scss";
 import FormInput from '../form-input/form-input.component'
 import CustomButton from '../custom-button/custom-button.component'
-import { auth, signInWithGoogle } from '../../firebase/firebase.utils'
-import { googleSignInStart } from "../../redux/user/user.actions";
+// import { auth, signInWithGoogle } from '../../firebase/firebase.utils'
+import { googleSignInStart, emailSignInStart } from "../../redux/user/user.actions";
 import { connect } from "react-redux";
 
 class SignIn extends React.Component {
@@ -18,23 +18,25 @@ class SignIn extends React.Component {
 
   handleSubmit = async event => {
     event.preventDefault();
-
+    const { emailSignInStart } = this.props;
     const { email, password } = this.state;
 
-    try {
+    emailSignInStart(email, password);
 
-      //Sign in with firebase using email, password. Returns authenticated user.
-      const { user } = await auth.signInWithEmailAndPassword(
-        email,
-        password
-      );
+    // try {
 
-      //Clear sign in form inputs
-      this.setState({ email: "", password: "" });
+    //   //Sign in with firebase using email, password. Returns authenticated user.
+    //   const { user } = await auth.signInWithEmailAndPassword(
+    //     email,
+    //     password
+    //   );
 
-    } catch (error) {
-      console.error("sign in error", error);
-    }
+    //   //Clear sign in form inputs
+    //   this.setState({ email: "", password: "" });
+
+    // } catch (error) {
+    //   console.error("sign in error", error);
+    // }
   };
 
   //Updates state with user input. Might be not the best solution for sign-in form
@@ -49,7 +51,7 @@ class SignIn extends React.Component {
     const { googleSignInStart } = this.props;
     return (
       <div className="sign-in">
-        <h2 className='title'>I don't have an account</h2>
+        <h2 className='title'>I already have an account</h2>
         <span>Sign in with your email and password</span>
         <form onSubmit={this.handleSubmit}>
           <FormInput 
@@ -72,6 +74,7 @@ class SignIn extends React.Component {
             <CustomButton type="submit">Sign in</CustomButton>
             {/* isGoogleSignIn param for special styling of Google sign in button. */}
             {/* Might be not the best approach. */}
+            {/* googleSignInStart is an action processed by sagas */}
             <CustomButton type='button' onClick={googleSignInStart} isGoogleSignIn>Sign in with Google</CustomButton>
           </div>
         </form>
@@ -80,8 +83,9 @@ class SignIn extends React.Component {
   }
 }
 
-const mapDispatchToProps = {
-  googleSignInStart
-}
+const mapDispatchToProps = dispatch => ({
+  googleSignInStart: () => dispatch(googleSignInStart()),
+  emailSignInStart: (email, password) => dispatch(emailSignInStart({ email, password})),
+})
 
 export default connect(null, mapDispatchToProps)(SignIn);
