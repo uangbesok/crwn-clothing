@@ -27,21 +27,21 @@ class App extends React.Component {
       // collectionsArray 
     } = this.props;
 
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-      if (userAuth) {
-        //Create user in firestore users collection and return user reference
-        const userRef = await createUserProfileDocument(userAuth);
+    // this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+    //   if (userAuth) {
+    //     //Create user in firestore users collection and return user reference
+    //     const userRef = await createUserProfileDocument(userAuth);
 
-        //Update state when user document changes
-        userRef.onSnapshot(snapShot => {
-          setCurrentUser({
-            id: snapShot.id,
-            ...snapShot.data()
-          });
-        });
-      } 
-      else setCurrentUser(userAuth);
-    });
+    //     //Update state when user document changes
+    //     userRef.onSnapshot(snapShot => {
+    //       setCurrentUser({
+    //         id: snapShot.id,
+    //         ...snapShot.data()
+    //       });
+    //     });
+    //   } 
+    //   else setCurrentUser(userAuth);
+    // });
 
     // addCollectionAndDocuments(
     //   'collections', 

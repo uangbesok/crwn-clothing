@@ -4,6 +4,8 @@ import "./sign-in.styles.scss";
 import FormInput from '../form-input/form-input.component'
 import CustomButton from '../custom-button/custom-button.component'
 import { auth, signInWithGoogle } from '../../firebase/firebase.utils'
+import { googleSignInStart } from "../../redux/user/user.actions";
+import { connect } from "react-redux";
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -44,6 +46,7 @@ class SignIn extends React.Component {
   };
 
   render() {
+    const { googleSignInStart } = this.props;
     return (
       <div className="sign-in">
         <h2 className='title'>I don't have an account</h2>
@@ -69,7 +72,7 @@ class SignIn extends React.Component {
             <CustomButton type="submit">Sign in</CustomButton>
             {/* isGoogleSignIn param for special styling of Google sign in button. */}
             {/* Might be not the best approach. */}
-            <CustomButton onClick={signInWithGoogle} isGoogleSignIn>Sign in with Google</CustomButton>
+            <CustomButton type='button' onClick={googleSignInStart} isGoogleSignIn>Sign in with Google</CustomButton>
           </div>
         </form>
       </div>
@@ -77,4 +80,8 @@ class SignIn extends React.Component {
   }
 }
 
-export default SignIn;
+const mapDispatchToProps = {
+  googleSignInStart
+}
+
+export default connect(null, mapDispatchToProps)(SignIn);

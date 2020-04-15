@@ -17,6 +17,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 
+//to find out if we need to use async/await for methods called inside redux saga
 export const createUserProfileDocument = async (userAuth, additionalData) => {
     if(!userAuth)
         return;
@@ -59,8 +60,19 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
-const provider  = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({ prompt: 'select_account' });
+export const googleProvider  = new firebase.auth.GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: 'select_account' });
+
+
+//Export method for popup login with Google account
+export const signInWithGooglePopup = () => auth.signInWithPopup(googleProvider);
+
+export default firebase;
+
+
+
+
+// Util methods to manage static data
 
 //Util method to add static data to firestore collection
 export const addCollectionAndDocuments = async (collectionKey, docsToAdd) =>
@@ -94,8 +106,3 @@ export const convertCollectionSnapshotToMap = (collection) => {
         return shopData;
     }, {});  
 }
-
-//Export method for popup login with Google account
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
-
-export default firebase;
