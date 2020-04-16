@@ -7,6 +7,12 @@ import UserActionTypes from './user.types';
 //     }
 // )
 
+export const checkUserSession = () => (
+    {
+        type: UserActionTypes.CHECK_USER_SESSION,
+    }
+)
+
 export const googleSignInStart = () => (
     {
         type: UserActionTypes.GOOGLE_SIGN_IN_START,
@@ -33,3 +39,44 @@ export const emailSignInStart = (emailAndPassword) => (
         payload: emailAndPassword,
     }
 )
+
+export const signOutSuccess = () => (
+    {
+        type: UserActionTypes.SIGN_OUT_SUCCESS,
+    }
+)
+
+export const signOutFailure = (error) => (
+    {
+        type: UserActionTypes.SIGN_Out_FAILURE,
+        payload: error,
+    }
+)
+
+export const signOutStart = () => (
+    {
+        type: UserActionTypes.SIGN_OUT_START,
+    }
+)
+
+export const signUpSuccess = (userDetails) => (
+    {
+        type: UserActionTypes.SIGN_UP_SUCCESS,
+        payload: userDetails,
+    }
+)
+
+export const signUpFailure = (error) => (
+    {
+        type: UserActionTypes.SIGN_UP_FAILURE,
+        payload: error,
+    }
+)
+
+export const signUpStart = (userDetails) => (
+    {
+        type: UserActionTypes.SIGN_UP_START,
+        payload: userDetails,
+    }
+)
+

@@ -12,11 +12,14 @@ import SignInSignOutPage from "./pages/sign-in-sign-up/sign-in-sign-up.component
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './redux/user/user.selectors'
 // import { selectCollectionsForPreview } from "./redux/shop/shop.selector";
+import { checkUserSession } from "./redux/user/user.actions";
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
+
+    // Auth flow without redux saga
     // const { 
     //   setCurrentUser, 
     //   // collectionsArray 
@@ -42,6 +45,9 @@ class App extends React.Component {
     //   'collections', 
     //   collectionsArray.map(({title, items}) => ({title, items}))
     //   );
+
+    const { checkUserSession } = this.props;
+    checkUserSession();
 
   }
 
@@ -72,13 +78,13 @@ class App extends React.Component {
 
 
 // Short form of mapDispatchToProps.
-// const mapDispatchToProps = {
-//   setCurrentUser
-// };
+const mapDispatchToProps = {
+  checkUserSession
+};
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
   // collectionsArray: selectCollectionsForPreview,
 });
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

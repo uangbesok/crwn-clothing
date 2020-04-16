@@ -13,10 +13,13 @@ export const addItemToCart = (cartItems, cartItemToAdd) => {
     return [...updatedCartItems, {...cartItemToAdd, quantity: 1}];    
 }
 
+//Totally clear item from shopping cart
 export const clearItemFromCart = (cartItems, cartItemToClear) => {
     return  cartItems.filter((item) => item.id !== cartItemToClear.id);    
 }
 
+//In case if item quantity > 1 this method decreases quantity by 1, if quantity is equal to 1, then
+// this method clear item from shopping cart
 export const removeItemFromCart = (cartItems, cartItemToRemove) =>
 {
     const existingItem = cartItems.find((item) => item.id === cartItemToRemove.id);
