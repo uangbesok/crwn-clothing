@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
@@ -14,10 +14,14 @@ import { selectCurrentUser } from './redux/user/user.selectors'
 // import { selectCollectionsForPreview } from "./redux/shop/shop.selector";
 import { checkUserSession } from "./redux/user/user.actions";
 
-class App extends React.Component {
-  unsubscribeFromAuth = null;
+const App = ({ currentUser, checkUserSession}) => {
+  // unsubscribeFromAuth = null;
 
-  componentDidMount() {
+  useEffect(() => 
+  {
+    checkUserSession();
+  }, [checkUserSession]);
+
 
     // Auth flow without redux saga
     // const { 
@@ -46,17 +50,12 @@ class App extends React.Component {
     //   collectionsArray.map(({title, items}) => ({title, items}))
     //   );
 
-    const { checkUserSession } = this.props;
-    checkUserSession();
 
-  }
+  // componentWillUnmount() {
+  //   //Stop listening to auth events. Needed to avoid memory leaks.
+  //   this.unsubscribeFromAuth();
+  // }
 
-  componentWillUnmount() {
-    //Stop listening to auth events. Needed to avoid memory leaks.
-    this.unsubscribeFromAuth();
-  }
-
-  render() {
     return (
       <>
         <Header />
@@ -66,7 +65,7 @@ class App extends React.Component {
           <Route exact path="/checkout" component={CheckoutPage} />
           <Route exact 
                  path="/signin"
-                 render={() => this.props.currentUser ?
+                 render={() => currentUser ?
                                <Redirect to="/" /> :
                                <SignInSignOutPage />
                                } />
@@ -74,7 +73,6 @@ class App extends React.Component {
       </>
     );
   }
-}
 
 
 // Short form of mapDispatchToProps.
