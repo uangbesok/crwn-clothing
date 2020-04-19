@@ -4,7 +4,7 @@ import { selectIsCollectionsLoaded } from '../../redux/shop/shop.selector'
 import { createStructuredSelector } from 'reselect';
 import Collection from './collection.component'
 
-import WithSpinner from "../../components/with-spinner/with-spinner.component"
+import WithSpinner from "../with-spinner/with-spinner.component"
 
 const mapStateToProps = createStructuredSelector ({
     isLoaded: selectIsCollectionsLoaded,
