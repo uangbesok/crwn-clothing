@@ -1,34 +1,50 @@
-import express from 'express';
-import cors from 'cors';
+import express from "express";
+import cors from "cors";
 import path from "path";
+import dotenv from "dotenv";
+import stripe from "stripe";
 
-if (process.env.NODE_ENV !== 'production')
-{
-    import dotenv from 'dotenv';
+
+  if (process.env.NODE_ENV !== "production") {
     dotenv.config();
-} 
+  }
 
-const app = express();
-const port = process.env.PORT || 5000;
+  const stripePayment = stripe(process.env.STRIPE_SECRET_KEY);
 
-app.use(cors);
-// parse application/json, basically parse incoming Request Object as a JSON Object 
-app.use(express.json());
-//middleware to parse url string to exclude not allowed symbols
-app.use(express.urlencoded({extended: true}));
+  const app = express();
+  const port = process.env.PORT || 5000;
 
-if (process.env.NODE_ENV == 'production')
-{
-    app.use(express.static(path.join(__dirname, 'client/build')));
+  app.use(cors());
+  // parse application/json, basically parse incoming Request Object as a JSON Object
+  app.use(express.json());
+  // middleware to parse url string to exclude not allowed symbols
+  app.use(express.urlencoded({ extended: true }));
 
-    app.get('*', (req, res) =>
-        {
-            res.sendFile(path.join(__dirname, 'client/build', 'index/html'));
-        }
-    )
-}
+  if (process.env.NODE_ENV == "production") {
+    app.use(express.static(path.join(__dirname, "client/build")));
 
-app.listen(port, error => {
-    if(error) throw error;
-    console.log('Server is running on port ', port);
-});
+    app.get("*", (req, res) => {
+      res.sendFile(path.join(__dirname, "client/build", "index/html"));
+    });
+  }
+
+  app.listen(port, (error) => {
+    if (error) throw error;
+    console.log("Server is running on port ", port);
+  });
+
+  app.post("/payment", (req, res) => {
+    const body = {
+      source: req.body.token.id,
+      amount: req.body.amount,
+      currency: "usd",
+    };
+
+    console.log(body);
+
+    stripePayment.charges.create(body, (stripeErr, stripeRes) => {
+      if (stripeErr) {
+        res.status(500).send({ error: stripeErr });
+      } else res.status(200).send({ success: stripeRes });
+    });
+  });
