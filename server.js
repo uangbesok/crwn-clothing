@@ -40,8 +40,6 @@ import stripe from "stripe";
       currency: "usd",
     };
 
-    console.log(body);
-
     stripePayment.charges.create(body, (stripeErr, stripeRes) => {
       if (stripeErr) {
         res.status(500).send({ error: stripeErr });

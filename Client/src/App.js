@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import "./App.css";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 // import { setCurrentUser } from "./redux/user/user.actions";
@@ -13,6 +12,7 @@ import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './redux/user/user.selectors'
 // import { selectCollectionsForPreview } from "./redux/shop/shop.selector";
 import { checkUserSession } from "./redux/user/user.actions";
+import { GlobalStyle } from "./global.styles";
 
 const App = ({ currentUser, checkUserSession}) => {
   // unsubscribeFromAuth = null;
@@ -58,6 +58,7 @@ const App = ({ currentUser, checkUserSession}) => {
 
     return (
       <>
+        <GlobalStyle />
         <Header />
         <Switch>
           <Route exact path="/" component={HomePage} />

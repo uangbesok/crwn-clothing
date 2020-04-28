@@ -11,7 +11,7 @@ import shopReducer from './shop/shop.reducer'
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['cart'],
+    whitelist: ['cart'], //add cart state to local storage to keep cart items between page refresh and browser close
 }
 
 const rootReducer = combineReducers({
