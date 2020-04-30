@@ -1,9 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 // import { setCurrentUser } from "./redux/user/user.actions";
-
-import HomePage from "./pages/homepage/homepage.component";
 import ShopPage from "./pages/shop/shop.component";
 import Header from "./components/header/header.component";
 import CheckoutPage from "./pages/checkoutpage/checkoutpage.component"
@@ -13,6 +11,9 @@ import { selectCurrentUser } from './redux/user/user.selectors'
 // import { selectCollectionsForPreview } from "./redux/shop/shop.selector";
 import { checkUserSession } from "./redux/user/user.actions";
 import { GlobalStyle } from "./global.styles";
+
+import HomePage from './pages/homepage/homepage.component'
+// const HomePage = lazy(() => import('./pages/homepage/homepage.component'));
 
 const App = ({ currentUser, checkUserSession}) => {
   // unsubscribeFromAuth = null;
@@ -60,17 +61,20 @@ const App = ({ currentUser, checkUserSession}) => {
       <>
         <GlobalStyle />
         <Header />
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/shop" component={ShopPage} />
-          <Route exact path="/checkout" component={CheckoutPage} />
-          <Route exact 
-                 path="/signin"
-                 render={() => currentUser ?
-                               <Redirect to="/" /> :
-                               <SignInSignOutPage />
-                               } />
-        </Switch>
+        {/* <Suspense fallback={<div>...LOADING</div>} >  */}
+          <Switch>
+            
+            <Route exact path="/" component={HomePage} />
+            <Route path="/shop" component={ShopPage} />
+            <Route exact path="/checkout" component={CheckoutPage} />
+            <Route exact 
+                  path="/signin"
+                  render={() => currentUser ?
+                                <Redirect to="/" /> :
+                                <SignInSignOutPage />
+                                } />
+          </Switch>
+        {/* </Suspense> */}
       </>
     );
   }

@@ -3,6 +3,7 @@ import cors from "cors";
 import path from "path";
 import dotenv from "dotenv";
 import stripe from "stripe";
+import compression from 'compression';
 
 
   if (process.env.NODE_ENV !== "production") {
@@ -14,6 +15,7 @@ import stripe from "stripe";
   const app = express();
   const port = process.env.PORT || 5000;
 
+  app.use(compression);
   app.use(cors());
   // parse application/json, basically parse incoming Request Object as a JSON Object
   app.use(express.json());
