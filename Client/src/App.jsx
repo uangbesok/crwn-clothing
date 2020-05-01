@@ -17,6 +17,7 @@ import HomePage from './pages/homepage/homepage.component'
 
 const App = ({ currentUser, checkUserSession}) => {
   // unsubscribeFromAuth = null;
+  console.log(__dirname);
 
   useEffect(() => 
   {

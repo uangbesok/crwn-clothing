@@ -12,7 +12,7 @@ import { clearCart } from '../cart/cart.actions'
 
 import UserActionTypes from './user.types';
 
-// Firebase flow has to be revised/refactored cause i feeel there is a redundancy and no needed calls to firestore
+// Firebase flow has to be revised/refactored cause i feel there is a redundancy and no needed calls to firestore
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 function* getSnapshotFromUserAuth(userAuth, additionalData)

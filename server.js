@@ -4,18 +4,18 @@ import path from "path";
 import dotenv from "dotenv";
 import stripe from "stripe";
 import compression from 'compression';
+import enforce from 'express-sslify'
 
-
-  if (process.env.NODE_ENV !== "production") {
+  if (process.env.NODE_ENV !== "production")
     dotenv.config();
-  }
+
 
   const stripePayment = stripe(process.env.STRIPE_SECRET_KEY);
 
   const app = express();
   const port = process.env.PORT || 5000;
 
-  app.use(compression);
+  app.use(compression());
   app.use(cors());
   // parse application/json, basically parse incoming Request Object as a JSON Object
   app.use(express.json());
@@ -23,12 +23,15 @@ import compression from 'compression';
   app.use(express.urlencoded({ extended: true }));
 
   if (process.env.NODE_ENV == "production") {
-    app.use(express.static(path.join(__dirname, "client/build")));
+
+    app.use(enforce.HTTPS({ trustProtoHeader: true }));
+    app.use(express.static(path.join(__dirname, 'client/build')));
 
     app.get("*", (req, res) => {
       res.sendFile(path.join(__dirname, "client/build", "index/html"));
     });
   }
+
 
   app.listen(port, (error) => {
     if (error) throw error;
